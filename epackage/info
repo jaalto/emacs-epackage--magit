@@ -18,7 +18,7 @@ Vcs-Password:
 Homepage: https://github.com/philjackson/magit
 Wiki: http://www.emacswiki.org/emacs/Magit
 Commentary: magit.el
-Description: A Emacs interface for Git
+Description: client interface for Git
  With Magit, you can inspect and modify your Git repositories with
  Emacs. You can review and commit the changes you have made to the
  tracked files, for example, and you can browse the history of past
@@ -30,3 +30,7 @@ Description: A Emacs interface for Git
  .
     (require 'magit-svn)
     (require 'magit-topgit)
+ .
+ To edit "git-rebase-todo" file after Magit commadn "E", use:
+ .
+    (require 'rebase-mode)
