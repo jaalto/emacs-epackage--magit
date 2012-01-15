@@ -311,4 +311,4 @@
 (autoload 'magit-topgit-wash-topic              "magit-topgit" "" nil)
 (autoload 'magit-topgit-wash-topics             "magit-topgit" "" nil)
 
-(provide 'magit-epkg-autoloads)
+(provide 'magit-epackage-autoloads)

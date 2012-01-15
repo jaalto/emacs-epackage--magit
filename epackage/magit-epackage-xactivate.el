@@ -1,3 +1,3 @@
-(require 'magit-epkg-autoloads)
+(require 'magit-epackage-autoloads)
 (global-set-key "\C-cvv" 'magit-status)	;Like Standard Emacs C-x v v
-(provide 'magit-epkg-xactivate)
+(provide 'magit-epackage-xactivate)

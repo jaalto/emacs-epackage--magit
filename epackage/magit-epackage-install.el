@@ -1,2 +1,2 @@
 (autoload 'magit-status "magit" "" t)
-(provide 'magit-epkg-install)
+(provide 'magit-epackage-install)
