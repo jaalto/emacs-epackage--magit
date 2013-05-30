@@ -6,16 +6,12 @@ Status: stable
 Compat:
 Maintainer: Jari Aalto <jari.aalto@cante.net>
 Bugs:
-Upstream: Phil Jackson (Current Maintainer) <phil@shellarchive.co.uk>,
- Marius Vollmer (Original Author) <marius.vollmer@nokia.com>
+Upstream: Jonas Bernoulli <jonas@bernoul.li>
 Upstream-Bugs: https://github.com/philjackson/magit/issues
 Vcs-Type: git
-Vcs-Url: git://github.com/philjackson/magit.git
-Vcs-Args:
-Vcs-Browser: https://github.com/philjackson/magit
-Vcs-User:
-Vcs-Password:
-Homepage: https://github.com/philjackson/magit
+Vcs-Url: git://github.com/magit/magit.git
+Vcs-Browser: https://github.com/magit/magit
+Homepage: https://github.com/magit/magit
 Wiki: http://www.emacswiki.org/emacs/Magit
 Commentary: magit.el
 Description: client interface for Git
