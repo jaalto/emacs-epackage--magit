@@ -19,7 +19,7 @@
 
 ;; This plug-in overrides the keybindings in magit-key-mode with
 ;; simpler keybindings; it does this by picking the most obviously
-;; used command in each key group
+;; used command in each key group.
 
 ;;; Code:
 
@@ -37,7 +37,7 @@
     (merging magit-merge)
     (submodule magit-submodule-update)))
 
-(defun magit-key-mode-generate (term mapping-function)
+(defun magit-simple-keys-key-mode-generate (term mapping-function)
   "Generate alias for the key-group term"
   (eval
    `(defalias ',(intern (concat "magit-key-mode-popup-" (symbol-name term)))
@@ -45,7 +45,7 @@
 
 ;; generate the aliases using the mapping in key-mode-mapping
 (mapc (lambda (g)
-        (magit-key-mode-generate (car g) (cadr g)))
+        (magit-simple-keys-key-mode-generate (car g) (cadr g)))
       magit-key-mode-mapping)
 
 (provide 'magit-simple-keys)

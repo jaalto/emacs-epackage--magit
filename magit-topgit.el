@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 2010  Nathan Weizenbaum
 ;; Copyright (C) 2010  Yann Hodique
-;;
+
 ;; Magit is free software; you can redistribute it and/or modify it
 ;; under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation; either version 3, or (at your option)
@@ -18,13 +18,13 @@
 
 ;;; Commentary:
 
-;; This plug-in provides topgit functionality as a separate component of Magit
+;; This plug-in provides topgit functionality as a separate component
+;; of Magit.
 
 ;;; Code:
 
 (require 'magit)
-(eval-when-compile
-  (require 'cl))
+(eval-when-compile (require 'cl-lib))
 
 (defcustom magit-topgit-executable "tg"
   "The name of the TopGit executable."
@@ -109,7 +109,7 @@
           (magit-with-section topic 'topic
             (magit-set-section-info topic)
             (let ((beg (1+ (line-beginning-position)))
-                  (end (line-end-position))) 
+                  (end (line-end-position)))
               (when (plist-get flags :current)
                 (put-text-property beg end 'face 'magit-topgit-current))
               (when (plist-get flags :empty)
@@ -143,12 +143,49 @@
   ((topic)
    (magit-checkout info)))
 
-(add-hook 'magit-after-insert-stashes-hook 'magit-insert-topics)
+(defun magit-topgit-get-top-bases-color (suffix)
+  (list nil nil))
 
-(add-hook 'magit-create-branch-command-hook 'magit-topgit-create-branch)
-(add-hook 'magit-pull-command-hook 'magit-topgit-pull)
-(add-hook 'magit-remote-update-command-hook 'magit-topgit-remote-update)
-(add-hook 'magit-push-command-hook 'magit-topgit-push)
+(defun magit-topgit-get-remote-top-bases-color (suffix)
+  (when (string-match "^\\(?:[^/]+\\)/top-bases" suffix)
+    (list nil nil)))
+
+(defconst magit-topgit-ignored-namespace
+  '("top-bases" magit-topgit-get-top-bases-color))
+
+;;;###autoload
+(define-minor-mode magit-topgit-mode "Topgit support for Magit"
+  :lighter " Topgit" :require 'magit-topgit
+  (or (derived-mode-p 'magit-mode)
+      (error "This mode only makes sense with magit"))
+  (if magit-topgit-mode
+      (progn
+        (add-hook 'magit-after-insert-stashes-hook 'magit-insert-topics nil t)
+        (add-hook 'magit-create-branch-command-hook 'magit-topgit-create-branch nil t)
+        (add-hook 'magit-pull-command-hook 'magit-topgit-pull nil t)
+        (add-hook 'magit-remote-update-command-hook 'magit-topgit-remote-update nil t)
+        (add-hook 'magit-push-command-hook 'magit-topgit-push nil t)
+        ;; hide refs for top-bases namespace in any remote
+        (add-hook 'magit-log-remotes-color-hook
+                  'magit-topgit-get-remote-top-bases-color)
+        ;; hide refs in the top-bases namespace, as they're not meant for the user
+        (add-to-list 'magit-refs-namespaces magit-topgit-ignored-namespace))
+    (progn
+        (remove-hook 'magit-after-insert-stashes-hook 'magit-insert-topics t)
+        (remove-hook 'magit-create-branch-command-hook 'magit-topgit-create-branch t)
+        (remove-hook 'magit-pull-command-hook 'magit-topgit-pull t)
+        (remove-hook 'magit-remote-update-command-hook 'magit-topgit-remote-update t)
+        (remove-hook 'magit-push-command-hook 'magit-topgit-push t)
+        (remove-hook 'magit-log-remotes-color-hook
+                     'magit-topgit-get-remote-top-bases-color)
+        (delete magit-topgit-ignored-namespace magit-refs-namespaces)))
+  (when (called-interactively-p 'any)
+    (magit-refresh)))
+
+;;;###autoload
+(defun turn-on-magit-topgit ()
+  "Unconditionally turn on `magit-topgit-mode'."
+  (magit-topgit-mode 1))
 
 (provide 'magit-topgit)
 ;;; magit-topgit.el ends here
