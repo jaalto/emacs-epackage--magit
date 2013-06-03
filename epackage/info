@@ -14,6 +14,12 @@ Vcs-Browser: https://github.com/magit/magit
 Homepage: https://github.com/magit/magit
 Wiki: http://www.emacswiki.org/emacs/Magit
 Commentary: magit.el
+X-Development:
+ After upgrading to newst upstream:
+ .
+ # Edit Makefile for VERSION
+ make
+ awk '{print} /ends here/{exit}' 50magit.el > epackage/magit-epackage-0loaddefs.el
 Description: client interface for Git
  With Magit, you can inspect and modify your Git repositories with
  Emacs. You can review and commit the changes you have made to the
