@@ -19,7 +19,8 @@ X-Development:
  .
  # Edit Makefile for VERSION
  make
- awk '{print} /ends here/{exit}' 50magit.el > epackage/magit-epackage-0loaddefs.el
+ # Delete C-l (FF, whitespace) character for Git version control
+ awk '{sub("\014","");print} /ends here/{exit}' 50magit.el > epackage/magit-epackage-0loaddefs.el
 Description: client interface for Git
  With Magit, you can inspect and modify your Git repositories with
  Emacs. You can review and commit the changes you have made to the
